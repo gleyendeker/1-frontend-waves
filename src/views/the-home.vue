@@ -1,12 +1,12 @@
 <template>
-  <div class="home">
+  <div class="home text-center">
     <i
       class="fa-solid fa-hand fa-rotate-by"
       style="--fa-rotate-angle: 30deg"
     ></i>
     <h1 class="title">Waves</h1>
-    <h3 class="subtitle">
-      a solidity demo project using <img src="./../assets/logo.png" />
+    <h3 class="subtitle mt-1">
+      a solidity demo project using <img class="align-middle" src="./../assets/logo.png" />
     </h3>
 
     <button class="btn btn-warning mt-3" @click="startDemo">start demo</button>
@@ -27,16 +27,13 @@ export default {
 
 <style lang="scss">
 .home {
-  text-align: center;
   padding-top: 30vh;
   .fa-hand {
     font-size: 4em;
   }
   .title,
   .subtitle {
-    margin: 5px 0 0 0;
     img {
-      vertical-align: middle;
       height: 15px;
     }
   }

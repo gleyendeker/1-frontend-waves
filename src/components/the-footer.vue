@@ -1,5 +1,5 @@
 <template>
-  <div class="credits">
+  <div class="credits text-center">
     created by
     <a href="https://linkedin.com/in/guillermoleyendeker">
       Guillermo Leyendeker
@@ -16,6 +16,5 @@ export default {
 <style>
 .credits {
   font-size: 0.9rem;
-  text-align: center;
 }
 </style>
