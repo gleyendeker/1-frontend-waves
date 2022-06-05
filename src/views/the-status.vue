@@ -1,55 +1,65 @@
 <template>
   <div>
-    <div>ethereum object detected:</div>
+    <div>ethereum object detected: {{ this.$store.state.acount }} </div>
   </div>
 </template>
 
 <script>
+import store from '@/store/store';
+
 export default {
   name: "theStatus",
 
   props: {},
 
-  data: () => ({
-    currentAccount: null,
-  }),
+  data: () => ({}),
 
   mounted() {
-    this.checkConnectedWalletExist();
+    // get web3 account and save it to the store
+    this.getWeb3Account();
   },
 
+  computed: {},
+
   methods: {
-    checkConnectedWalletExist: async function () {
+
+    getEthereumObject: async function() {
       try {
         const { ethereum } = window;
 
         if (!ethereum) {
-          console.log("Make sure you have metamask!");
-          return;
+          console.log("Looks you don't have a Web3 wallet installed. Try installing Metamask!");
+          return false;
         } else {
-          console.log("We have the ethereum object", ethereum);
-        }
-
-        /*
-         * Check if we're authorized to access the user's wallet
-         */
-        const accounts = await ethereum.request({ method: "eth_accounts" });
-
-        if (accounts.length !== 0) {
-          const account = accounts[0];
-          console.log("Found an authorized account:", account);
-          this.setCurrentAccount(account);
-          // store.dispatch("setCurrentAccount", account);
-        } else {
-          console.log("No authorized account found");
+          console.log("Web3 wallet installed, we have the ethereum object :)");
+          return ethereum;
         }
       } catch (error) {
         console.log(error);
       }
     },
 
-    setCurrentAccount: function (account) {
-      this.currentAccount = account;
+    getWeb3Account: async function () {
+
+      let ethereumObject = await this.getEthereumObject();
+
+      if (ethereumObject !== false) {
+        try {
+          const accounts = await ethereumObject.request({ method: "eth_accounts" });
+
+          if (accounts.length !== 0) {
+            const account = accounts[0];
+            console.log("Found an authorized account:", account);
+            store.state.dispatch("setCurrentAccount", account);
+            return account;
+          } else {
+            console.log("No authorized account found");
+            return false;
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
     },
   },
 };

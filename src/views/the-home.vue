@@ -19,7 +19,6 @@ export default {
   components: {},
   methods: {
     startDemo() {
-      console.log("ok");
       this.$router.push({ name: "status" });
     },
   },
