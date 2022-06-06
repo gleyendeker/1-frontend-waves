@@ -2,7 +2,7 @@
 
   <!-- connect wallet button -->
 
-  <div class="text-center mt-3">This is a Solidity demo built with Vue3 using: Vue 3, Vuex 4, Vue Router 4, Scss and Bootstrap 5</div>
+  <div class="col-8 offset-2 text-center pt-5">First you need to get connected with your wallet, please follow this steps:</div>
 
   <div class="text-end">
     <button v-if="this.$store.walletInstalled" class="btn btn-primary mx-3 mt-3" @click="connectWallet">connect wallet</button>
@@ -12,48 +12,43 @@
   <div class="row m-3 justify-content-center">
     <div class="col-12 col-md-auto border border-1 rounded-3 p-3">
       <h1 class="text-center title">Steps to get connected</h1>
-      <table class="table table-responsive table-borderless">
-        <tbody>
-        <tr>
-          <td>#1</td>
-          <td>wallet installed</td>
-          <td>
-            <span >
-              <i v-if="this.$store.state.walletInstalled" class="fa-solid fa-circle-check fa-lg text-success"></i>
-              <i v-else class="fa-solid fa-circle-xmark fa-lg text-danger"></i>
-            </span>
-            <span v-if="!this.$store.state.walletInstalled" class='text-muted mx-3'><i class="fa-solid fa-download"></i> try installing <a href="https://metamask.io/" target="_blank" class="text-black">Metamask!</a></span>
-          </td>
-        </tr>
-        <tr>
-          <td>#2</td>
-          <td>wallet connected</td>
-          <td>
-            <span >
-              <i v-if="this.$store.state.walletConnected" class="fa-solid fa-circle-check fa-lg text-success"></i>
-              <i v-else class="fa-solid fa-circle-xmark fa-lg text-danger"></i>
-            </span>
-          </td>
-        </tr>
-        <tr>
-          <td>#3</td>
-          <td>wallet account</td>
-          <td>
-            <span v-if="this.$store.state.walletConnected" class='text-muted' >{{ this.$store.state.account }}</span>
-            <i v-else class="fa-solid fa-circle-xmark fa-lg text-danger"></i>
-          </td>
-        </tr>
-        </tbody>
-      </table>
+
+      <div class="row mt-3">
+
+        <div class="col-1">#1</div>
+        <div class="col-6">wallet installed</div>
+        <div class="col-5">
+          <i v-if="this.$store.state.walletInstalled" class="fa-solid fa-circle-check fa-lg text-success"></i>
+          <i v-else class="fa-solid fa-circle-xmark fa-lg text-danger"></i>
+        </div>
+
+      </div>
+      <div class="row mt-3">
+
+        <div class="col-1">#2</div>
+        <div class="col-6">wallet connected</div>
+        <div class="col-5">
+          <i v-if="this.$store.state.walletConnected" class="fa-solid fa-circle-check fa-lg text-success"></i>
+          <i v-else class="fa-solid fa-circle-xmark fa-lg text-danger"></i>
+        </div>
+
+      </div>
     </div>
   </div>
 
-  <div v-if="this.$store.state.walletConnected" class="text-center mt-3">Great! You got connected!</div>
+  <div v-if="this.$store.state.walletConnected" class="text-center">
+    <div class="text-center my-3">Great! You got connected!</div>
+    <div class="text-center">your wallet address is</div>
+    <div class="text-center text-muted">{{ this.$store.state.account }}</div>
+    <button class="btn btn-primary btn-success mt-3" @click="goToWavePage">continuar</button>
+  </div>
 
 </template>
 
 <script>
 import store from '@/store/store';
+import { ethers } from 'ethers';
+import abi from "@/utils/WavePortal.json";
 
 export default {
   name: "theStatus",
@@ -62,6 +57,8 @@ export default {
 
   data: () => ({
     ethereumObject: null,
+    contractABI: abi.abi,
+
   }),
 
   mounted() {
@@ -134,7 +131,34 @@ export default {
       } catch (error) {
         console.log(error)
       }
-    }
+    },
+
+    /*
+    * connect wallet method
+    */
+    wave: async function() {
+      try {
+        const { ethereum } = window;
+
+        if (ethereum) {
+          const provider = new ethers.providers.Web3Provider(ethereum);
+          const signer = provider.getSigner();
+          const wavePortalContract = new ethers.Contract(this.$store.state.contractAddress, this.contractABI, signer);
+
+          let count = await wavePortalContract.getTotalWaves();
+          console.log("Retrieved total wave count...", count.toNumber());
+        } else {
+          console.log("Ethereum object doesn't exist!");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+
+    },
+
+    goToWavePage() {
+      this.$router.push({ name: "wave-page" });
+    },
 
   },
 };
@@ -142,7 +166,7 @@ export default {
 
 <style lang="scss" scoped>
   .title {
-    font-size: 1.3rem;
+    font-size: 1rem;
     font-weight: bold;
   }
 </style>

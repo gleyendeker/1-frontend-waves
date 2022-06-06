@@ -26,11 +26,12 @@ export default {
   .header {
   }
   .body {
-    min-height: calc(100vh - 100px);
+    min-height: 90vh;
     font-family: sans-serif;
   }
   .footer {
-    height: 100px;
+    height: 10vh;
+    min-height: 30px;
   }
 }
 </style>

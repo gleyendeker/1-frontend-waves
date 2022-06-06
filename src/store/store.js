@@ -5,6 +5,8 @@ const state = {
     walletInstalled: null,
     walletConnected: null,
     account: null,
+    contractAddress: '0x082E3c0DA6776cf75e3631bCB3748Ae909383Aa1',
+    wavesReceived: 0,
 }
 
 const getters = {}
@@ -19,6 +21,9 @@ const actions = {
     setCurrentAccount: ({commit}, data) => {
         commit(types.SET_ACCOUNT, data)
     },
+    setWavesReceived: ({commit}, data) => {
+        commit(types.SET_WAVES_RECEIVED, data)
+    },
 }
 
 const mutations = {
@@ -30,6 +35,9 @@ const mutations = {
     },
     [types.SET_ACCOUNT] (state, data) {
         state.account = data
+    },
+    [types.SET_WAVES_RECEIVED] (state, data) {
+        state.wavesReceived = data
     },
 }
 
