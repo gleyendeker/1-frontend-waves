@@ -1,29 +1,54 @@
 <template>
 
-  <div class="row mt-5 justify-content-center">
-    <div class="col-auto border border-1 rounded-3 p-5">
+  <!-- connect wallet button -->
+
+  <div class="text-center mt-3">This is a Solidity demo built with Vue3 using: Vue 3, Vuex 4, Vue Router 4, Scss and Bootstrap 5</div>
+
+  <div class="text-end">
+    <button v-if="this.$store.walletInstalled" class="btn btn-primary mx-3 mt-3" @click="connectWallet">connect wallet</button>
+  </div>
+
+  <!-- status table -->
+  <div class="row m-3 justify-content-center">
+    <div class="col-12 col-md-auto border border-1 rounded-3 p-3">
+      <h1 class="text-center title">Steps to get connected</h1>
       <table class="table table-responsive table-borderless">
         <tbody>
         <tr>
-          <td>web3 wallet installed</td>
+          <td>#1</td>
+          <td>wallet installed</td>
           <td>
-            <span v-if="this.$store.state.walletInstalled" class='badge bg-success' >yes</span>
-            <span v-else class='badge bg-danger'>no</span>
+            <span >
+              <i v-if="this.$store.state.walletInstalled" class="fa-solid fa-circle-check fa-lg text-success"></i>
+              <i v-else class="fa-solid fa-circle-xmark fa-lg text-danger"></i>
+            </span>
+            <span v-if="!this.$store.state.walletInstalled" class='text-muted mx-3'><i class="fa-solid fa-download"></i> try installing <a href="https://metamask.io/" target="_blank" class="text-black">Metamask!</a></span>
           </td>
         </tr>
         <tr>
-          <td>web3 wallet connected</td>
+          <td>#2</td>
+          <td>wallet connected</td>
           <td>
-            <span v-if="this.$store.state.walletConnected" class='badge bg-success' >yes</span>
-            <span v-else class='badge bg-danger'>no</span>
+            <span >
+              <i v-if="this.$store.state.walletConnected" class="fa-solid fa-circle-check fa-lg text-success"></i>
+              <i v-else class="fa-solid fa-circle-xmark fa-lg text-danger"></i>
+            </span>
+          </td>
+        </tr>
+        <tr>
+          <td>#3</td>
+          <td>wallet account</td>
+          <td>
+            <span v-if="this.$store.state.walletConnected" class='text-muted' >{{ this.$store.state.account }}</span>
+            <i v-else class="fa-solid fa-circle-xmark fa-lg text-danger"></i>
           </td>
         </tr>
         </tbody>
       </table>
     </div>
-
   </div>
 
+  <div v-if="this.$store.state.walletConnected" class="text-center mt-3">Great! You got connected!</div>
 
 </template>
 
@@ -84,7 +109,6 @@ export default {
             console.log("Found an authorized account:", account);
             store.dispatch("setWalletConnected", true);
             store.dispatch("setCurrentAccount", account);
-            return account;
           } else {
             console.log("No authorized account found");
             store.dispatch("setWalletConnected", false);
@@ -94,9 +118,31 @@ export default {
         }
       }
     },
+
+    /*
+    * connect wallet method
+    */
+    connectWallet:async function() {
+      try {
+        const { ethereum } = window;
+
+        const accounts = await ethereum.request({ method: "eth_requestAccounts" });
+
+        console.log("Connected", accounts[0]);
+        store.dispatch("setWalletConnected", true);
+        store.dispatch("setCurrentAccount", accounts[0]);
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
   },
 };
 </script>
 
 <style lang="scss" scoped>
+  .title {
+    font-size: 1.3rem;
+    font-weight: bold;
+  }
 </style>
