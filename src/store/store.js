@@ -7,6 +7,7 @@ const state = {
     account: null,
     contractAddress: '0x082E3c0DA6776cf75e3631bCB3748Ae909383Aa1',
     wavesReceived: 0,
+    mining: false,
 }
 
 const getters = {}
@@ -24,6 +25,9 @@ const actions = {
     setWavesReceived: ({commit}, data) => {
         commit(types.SET_WAVES_RECEIVED, data)
     },
+    setMining: ({commit}, data) => {
+        commit(types.SET_MINING, data)
+    },
 }
 
 const mutations = {
@@ -38,6 +42,9 @@ const mutations = {
     },
     [types.SET_WAVES_RECEIVED] (state, data) {
         state.wavesReceived = data
+    },
+    [types.SET_MINING] (state, data) {
+        state.mining = data
     },
 }
 

@@ -2,10 +2,10 @@
 
     <!-- wave button -->
 
-    <div class="col-8 offset-2 text-center pt-5">Click to wave to Guille!</div>
+    <div class="col-8 offset-2 text-center pt-5">Click to wave Guille!</div>
 
     <div class="text-center">
-        <button class="btn btn-primary mx-3 mt-3" @click="wave">wave!</button>
+        <button class="btn btn-primary mx-3 mt-3" :class="this.$store.state.mining ? 'disabled' : '' " @click="wave">{{ waveButtonMessage }}</button>
     </div>
 
     <!-- status table -->
@@ -45,9 +45,18 @@
             wavePortalContract: null,
         }),
 
-        mounted() {},
+        mounted() {
+            this.getWaves();
+        },
 
-        computed: {},
+        computed: {
+            waveButtonMessage: () => {
+                if(store.state.mining)
+                    return 'mining...';
+                else
+                    return 'wave!';
+            }
+        },
 
         methods: {
 
@@ -92,9 +101,11 @@
 
                 let waveTxn = await this.wavePortalContract.wave();
                 console.log("Mining...", waveTxn.hash);
+                store.dispatch("setMining", true);
 
                 await waveTxn.wait();
                 console.log("Mined -- ", waveTxn.hash);
+                store.dispatch("setMining", false);
 
                 this.getWaves();
 
