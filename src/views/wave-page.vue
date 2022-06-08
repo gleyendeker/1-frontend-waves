@@ -1,8 +1,16 @@
 <template>
 
+    <!-- wave button -->
+
+    <div class="col-8 offset-2 text-center pt-5">Click to wave to Guille!</div>
+
+    <div class="text-center">
+        <button class="btn btn-primary mx-3 mt-3" @click="wave">wave!</button>
+    </div>
+
     <!-- status table -->
     <div class="row m-3 justify-content-center">
-        <div class="col-12 col-md-auto border border-1 rounded-3 p-3">
+        <div class="col-12 col-md-4 border border-1 rounded-3 p-3">
             <h1 class="text-center title">Blockchain data</h1>
 
             <div class="row mt-3">
@@ -76,6 +84,21 @@
                 }
 
             },
+
+            /*
+            * do a wave
+            */
+            wave: async function() {
+
+                let waveTxn = await this.wavePortalContract.wave();
+                console.log("Mining...", waveTxn.hash);
+
+                await waveTxn.wait();
+                console.log("Mined -- ", waveTxn.hash);
+
+                this.getWaves();
+
+            }
 
         },
     };

@@ -4,32 +4,35 @@
 
   <div class="col-8 offset-2 text-center pt-5">First you need to get connected with your wallet, please follow this steps:</div>
 
-  <div class="text-end">
-    <button v-if="this.$store.walletInstalled" class="btn btn-primary mx-3 mt-3" @click="connectWallet">connect wallet</button>
-  </div>
-
   <!-- status table -->
   <div class="row m-3 justify-content-center">
-    <div class="col-12 col-md-auto border border-1 rounded-3 p-3">
+    <div class="col-12 col-md-4 border border-1 rounded-3 p-3">
       <h1 class="text-center title">Steps to get connected</h1>
 
-      <div class="row mt-3">
+      <div class="row mt-3 table-row">
 
         <div class="col-1">#1</div>
         <div class="col-6">wallet installed</div>
         <div class="col-5">
           <i v-if="this.$store.state.walletInstalled" class="fa-solid fa-circle-check fa-lg text-success"></i>
-          <i v-else class="fa-solid fa-circle-xmark fa-lg text-danger"></i>
+          <span v-else class="text-nowrap">
+            <i class="fa-solid fa-circle-xmark fa-lg text-danger"></i>
+            <a href="https://metamask.io/" target="_blank" class="btn btn-primary mx-3">install</a>
+
+          </span>
         </div>
 
       </div>
-      <div class="row mt-3">
+      <div class="row mt-3 table-row">
 
         <div class="col-1">#2</div>
         <div class="col-6">wallet connected</div>
         <div class="col-5">
           <i v-if="this.$store.state.walletConnected" class="fa-solid fa-circle-check fa-lg text-success"></i>
-          <i v-else class="fa-solid fa-circle-xmark fa-lg text-danger"></i>
+          <span v-else class="text-nowrap">
+            <i class="fa-solid fa-circle-xmark fa-lg text-danger"></i>
+            <button v-if="!this.$store.state.walletConnected" class="btn btn-primary mx-3" :class="!this.$store.state.walletInstalled ? 'disabled' : ''" @click="connectWallet">connect</button>
+          </span>
         </div>
 
       </div>
@@ -168,5 +171,9 @@ export default {
   .title {
     font-size: 1rem;
     font-weight: bold;
+  }
+  .table-row{
+    height: 40px;
+    line-height: 40px;
   }
 </style>
