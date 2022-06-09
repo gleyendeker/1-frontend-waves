@@ -20,7 +20,7 @@ export default {
   components: {},
   methods: {
     startDemo() {
-      this.$router.push({ name: "status" });
+      this.$router.push({ name: "status-page" });
     },
   },
 };

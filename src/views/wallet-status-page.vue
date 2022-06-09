@@ -2,48 +2,66 @@
 
   <!-- connect wallet button -->
 
-  <div class="col-8 offset-2 text-center pt-5">First you need to get connected with your wallet, please follow this steps:</div>
+  <div class="col-12 col-md-8 offset-md-2 pt-5">First you need to get connected with your wallet, please follow this steps:</div>
 
   <!-- status table -->
-  <div class="row m-3 justify-content-center">
-    <div class="col-12 col-md-4 border border-1 rounded-3 p-3">
-      <h1 class="text-center title">Steps to get connected</h1>
+  <div class="m-3 text-center">
+    <div class="col-12 col-md-10 offset-md-1 border border-1 rounded-3 p-3">
+      <h1 class="title">Steps to get connected</h1>
 
-      <div class="row mt-3 table-row">
-
+      <div class="mt-3 row table-row">
+        <!-- column 1 -->
         <div class="col-1">#1</div>
+        <!-- column 2 -->
         <div class="col-6">wallet installed</div>
-        <div class="col-5">
-          <i v-if="this.$store.state.walletInstalled" class="fa-solid fa-circle-check fa-lg text-success"></i>
-          <span v-else class="text-nowrap">
+        <!-- column 3 if -->
+        <div v-if="this.$store.state.walletInstalled" class="col-5">
+          <i class="fa-solid fa-circle-check fa-lg text-success"></i>
+        </div>
+        <!-- column 1 else -->
+        <div v-else class="col-5 row">
+          <div class="col-4">
             <i class="fa-solid fa-circle-xmark fa-lg text-danger"></i>
+          </div>
+          <div class="col-8">
             <a href="https://metamask.io/" target="_blank" class="btn btn-primary mx-3">install</a>
-
-          </span>
+          </div>
         </div>
-
       </div>
-      <div class="row mt-3 table-row">
 
+
+      <div class="mt-3 row table-row">
+        <!-- column 1 -->
         <div class="col-1">#2</div>
+        <!-- column 2 -->
         <div class="col-6">wallet connected</div>
-        <div class="col-5">
-          <i v-if="this.$store.state.walletConnected" class="fa-solid fa-circle-check fa-lg text-success"></i>
-          <span v-else class="text-nowrap">
-            <i class="fa-solid fa-circle-xmark fa-lg text-danger"></i>
-            <button v-if="!this.$store.state.walletConnected" class="btn btn-primary mx-3" :class="!this.$store.state.walletInstalled ? 'disabled' : ''" @click="connectWallet">connect</button>
-          </span>
+        <!-- column 3 if -->
+        <div v-if="this.$store.state.walletConnected" class="col-5">
+          <i class="fa-solid fa-circle-check fa-lg text-success"></i>
         </div>
-
+        <!-- column 1 else -->
+        <div v-else class="col-5 row">
+          <div class="col-4">
+            <i class="fa-solid fa-circle-xmark fa-lg text-danger"></i>
+          </div>
+          <div class="col-8">
+            <button v-if="!this.$store.state.walletConnected" class="btn btn-primary mx-3" :class="!this.$store.state.walletInstalled ? 'disabled' : ''" @click="connectWallet">connect</button>
+          </div>
+        </div>
       </div>
+
     </div>
   </div>
 
-  <div v-if="this.$store.state.walletConnected" class="text-center">
-    <div class="text-center my-3">Great! You got connected!</div>
-    <div class="text-center">your wallet address is</div>
-    <div class="text-center text-muted">{{ this.$store.state.account }}</div>
-    <button class="btn btn-primary btn-success mt-3" @click="goToWavePage">continuar</button>
+  <div v-if="this.$store.state.walletConnected">
+    <div class="my-3">Great! You got connected!</div>
+    <div>your wallet address is</div>
+    <div class="text-muted">{{ this.$store.state.account }}</div>
+  </div>
+
+  <div class="row col-12 mt-5">
+    <button class="col-3 offset-3 btn btn-primary btn-warning mt-3" @click="goToHomePage">previous</button>
+    <button class="col-3 offset-1 btn btn-primary btn-success mt-3" @click="goToWavePage">next</button>
   </div>
 
 </template>
@@ -161,6 +179,9 @@ export default {
 
     goToWavePage() {
       this.$router.push({ name: "wave-page" });
+    },
+    goToHomePage() {
+      this.$router.push({ name: "home-page" });
     },
 
   },

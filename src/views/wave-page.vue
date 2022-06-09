@@ -5,7 +5,9 @@
     <div class="col-8 offset-2 text-center pt-5">Click to wave Guille!</div>
 
     <div class="text-center">
-        <button class="btn btn-primary mx-3 mt-3" :class="this.$store.state.mining ? 'disabled' : '' " @click="wave">{{ waveButtonMessage }}</button>
+        <button class="btn btn-primary mx-3 mt-3"
+                :class="this.$store.state.mining ? 'disabled' : '' "
+                @click="wave">{{ waveButtonMessage }}</button>
     </div>
 
     <!-- status table -->

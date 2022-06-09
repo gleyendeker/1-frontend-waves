@@ -1,5 +1,5 @@
 <template>
-  <div class="credits text-center">
+  <div class="credits text-center py-4">
     created by
     <a href="https://linkedin.com/in/guillermoleyendeker">
       Guillermo Leyendeker
