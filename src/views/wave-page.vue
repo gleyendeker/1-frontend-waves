@@ -7,27 +7,39 @@
     <div class="text-center">
         <button class="btn btn-primary mx-3 mt-3"
                 :class="this.$store.state.mining ? 'disabled' : '' "
-                @click="wave">{{ waveButtonMessage }}</button>
+                @click="wave">{{ waveButtonMessage }}
+        </button>
     </div>
 
+
     <!-- status table -->
-    <div class="row m-3 justify-content-center">
-        <div class="col-12 col-md-4 border border-1 rounded-3 p-3">
-            <h1 class="text-center title">Blockchain data</h1>
+    <div class="m-3 text-center">
+        <div class="col-12 col-md-10 offset-md-1 border border-1 rounded-3 p-3">
 
-            <div class="row mt-3">
+            <h1 class="title">Blockchain data</h1>
 
-                <div class="col-7 pt-1">waves received</div>
-                <div class="col-3 pt-1">{{ this.$store.state.wavesReceived }}</div>
-                <button class="col-2 btn pt-1 border-0" @click="getWaves">
+            <div class="mt-3 row table-row">
+                <!-- column 1 -->
+                <div class="col-1 px-0">#1</div>
+                <!-- column 2 -->
+                <div class="col-5">waves received</div>
+                <!-- column 3 -->
+                <div class="col-2">
+                    {{ this.$store.state.wavesReceived }}
+                </div>
+                <!-- column 4 -->
+                <button class="col-4 btn pt-1 px-0 border-0" @click="getWaves">
                     <i class="fa-solid fa-arrows-rotate"></i>
                 </button>
-
             </div>
 
         </div>
     </div>
 
+    <div class="row col-12 mt-5">
+        <button class="col-3 offset-3 btn btn-primary btn-warning mt-3" @click="goToStatusPage">previous</button>
+        <button class="col-3 offset-1 btn btn-primary btn-success mt-3" disabled >next</button>
+    </div>
 
 </template>
 
@@ -111,7 +123,11 @@
 
                 this.getWaves();
 
-            }
+            },
+
+            goToStatusPage() {
+                this.$router.push({ name: "status-page" });
+            },
 
         },
     };

@@ -61,7 +61,8 @@
 
   <div class="row col-12 mt-5">
     <button class="col-3 offset-3 btn btn-primary btn-warning mt-3" @click="goToHomePage">previous</button>
-    <button class="col-3 offset-1 btn btn-primary btn-success mt-3" @click="goToWavePage">next</button>
+    <button :disabled="!this.$store.state.walletConnected"
+            class="col-3 offset-1 btn btn-primary btn-success mt-3" @click="goToWavePage">next</button>
   </div>
 
 </template>
