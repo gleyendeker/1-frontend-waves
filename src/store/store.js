@@ -5,9 +5,10 @@ const state = {
     walletInstalled: null,
     walletConnected: null,
     account: null,
-    contractAddress: '0x082E3c0DA6776cf75e3631bCB3748Ae909383Aa1',
+    contractAddress: '0x24d73ADd8F1A500981Bd0104649C8E4aBd562F0E',
     wavesReceived: 0,
     mining: false,
+    cleanedWaves: [],
 }
 
 const getters = {}
@@ -28,6 +29,9 @@ const actions = {
     setMining: ({commit}, data) => {
         commit(types.SET_MINING, data)
     },
+    setCleanedWaves: ({commit}, data) => {
+        commit(types.SET_CLEANED_WAVES, data)
+    },
 }
 
 const mutations = {
@@ -45,6 +49,9 @@ const mutations = {
     },
     [types.SET_MINING] (state, data) {
         state.mining = data
+    },
+    [types.SET_CLEANED_WAVES] (state, data) {
+        state.cleanedWaves = data
     },
 }
 
