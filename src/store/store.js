@@ -5,7 +5,7 @@ const state = {
     walletInstalled: null,
     walletConnected: null,
     account: null,
-    contractAddress: '0x24d73ADd8F1A500981Bd0104649C8E4aBd562F0E',
+    contractAddress: '0x9e43F2c4c7867A446EC4105b6c705D9c1bfEF4da',
     wavesReceived: 0,
     mining: false,
     cleanedWaves: [],

@@ -85,9 +85,11 @@
             this.moment = moment;
         },
 
-        mounted() {
+        async mounted() {
+            await this.getContract();
             this.getWaves();
             this.getAllWaves();
+            // this.setListeners();
         },
 
         computed: {
@@ -106,13 +108,13 @@
             /*
             * setup ethereum object with contract data and getContract
             */
-            getContract: function () {
+            getContract: async function () {
                 const {ethereum} = window;
                 if (ethereum) {
                     this.ethereumObject = ethereum;
                     const provider = new ethers.providers.Web3Provider(ethereum);
                     const signer = provider.getSigner();
-                    this.wavePortalContract = new ethers.Contract(this.$store.state.contractAddress, this.contractABI, signer);
+                    this.wavePortalContract = await new ethers.Contract(this.$store.state.contractAddress, this.contractABI, signer);
                 } else {
                     console.log("Ethereum object doesn't exist!");
                 }
@@ -123,7 +125,6 @@
             */
             getWaves: async function () {
                 try {
-                    this.getContract();
                     let count = await this.wavePortalContract.getTotalWaves();
                     console.log("Retrieved total wave count...", count.toNumber());
                     store.dispatch("setWavesReceived", count.toNumber());
@@ -139,7 +140,7 @@
             */
             wave: async function (message) {
 
-                let waveTxn = await this.wavePortalContract.wave(message);
+                let waveTxn = await this.wavePortalContract.wave(message, { gasLimit: 300000 });
                 console.log("Mining...", waveTxn.hash);
                 store.dispatch("setMining", true);
 
@@ -160,7 +161,6 @@
             getAllWaves: async function () {
 
                 try {
-                    this.getContract();
                     // Call the getAllWaves method from your Smart Contract
                     const waves = await this.wavePortalContract.getAllWaves();
 
@@ -184,6 +184,14 @@
                 } catch (error) {
                     console.log(error);
                 }
+            },
+
+            setListeners: function () {
+                this.wavePortalContract
+                .on(
+                    "NewWave",
+                    function (sender, timestamp, message) { console.log(message); },
+                );
             }
         },
 
