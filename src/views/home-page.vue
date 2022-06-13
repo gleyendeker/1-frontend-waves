@@ -1,5 +1,6 @@
 <template>
-  <div class="home text-center">
+  <div class="body col-md-4 offset-md-4 text-center">
+    <div class="home text-center">
     <i class="fa-solid fa-hand fa-rotate-by" style="--fa-rotate-angle: 30deg" ></i>
     <h1 class="title">Waves</h1>
     <h3 class="subtitle mt-1">
@@ -11,6 +12,7 @@
     </div>
 
     <button class="btn btn-primary btn-warning mt-3" @click="startDemo">start demo</button>
+  </div>
   </div>
 </template>
 

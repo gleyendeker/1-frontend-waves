@@ -1,54 +1,63 @@
 <template>
+    <div class="body col-md-6 offset-md-3 text-center">
 
-    <!-- wave button -->
+        <!-- wave button -->
+        <div class="text-center pt-4">Send a customized wave Guille!</div>
 
-    <div class="col-8 offset-2 text-center pt-5">Send a customized wave Guille!</div>
-
-    <div class="text-center">
-        <input v-model="message" placeholder="menssage">
-
-        <button class="btn btn-primary mx-3 mt-3"
-                :class="this.$store.state.mining ? 'disabled' : '' "
-                @click="wave(message)">{{ waveButtonMessage }}
-        </button>
-    </div>
-
-
-    <!-- status table -->
-    <div class="m-3 text-center">
-        <div class="col-12 col-md-10 offset-md-1 border border-1 rounded-3 p-3">
-
-            <h1 class="title">Blockchain data</h1>
-
-            <div class="mt-3 row table-row">
-                <!-- column 1 -->
-                <div class="col-1 px-0">#1</div>
-                <!-- column 2 -->
-                <div class="col-5">waves received</div>
-                <!-- column 3 -->
-                <div class="col-2">
-                    {{ this.$store.state.wavesReceived }}
-                </div>
-                <!-- column 4 -->
-                <button class="col-4 btn pt-1 px-0 border-0" @click="getWaves">
-                    <i class="fa-solid fa-arrows-rotate"></i>
-                </button>
+        <div class="input-group pt-4">
+            <input type="text" class="form-control" v-model="message" placeholder="menssage" >
+            <div class="input-group-append ">
+                <button class="btn btn-primary"
+                        :class="this.$store.state.mining ? 'disabled' : '' "
+                        type="button"
+                        @click="wave(message)">Button</button>
             </div>
-
         </div>
-    </div>
 
-    <!-- waves table -->
-    <div class="m-3 text-center">
-        <div v-for="cleanWave in cleanedWaves" :key="cleanWave.id">
-            {{ key }} - {{ cleanWave.timestamp }} - {{ cleanWave.waver }} - {{ cleanWave.message }}
+        <!-- status table -->
+        <div class="text-center pt-4">
+            <div class="border border-1 rounded-3 p-3">
+
+                <!-- stats -->
+                <h2 class="title">Blockchain stats</h2>
+
+                <div class="mt-3 row table-row">
+                    <!-- column 1 -->
+                    <div class="col-5">waves received</div>
+                    <!-- column 2 -->
+                    <div class="col-2">
+                        {{ this.$store.state.wavesReceived }}
+                    </div>
+                    <!-- column 3 -->
+                    <button class="col-4 btn pt-1 px-0 border-0" @click="getWaves">
+                        <i class="fa-solid fa-arrows-rotate"></i>
+                    </button>
+                </div>
+
+                <!-- eaves messages-->
+                <h1 class="title mt-4">Waves messages</h1>
+
+                <div v-for="cleanWave in cleanedWaves" :key="cleanWave.id" class="row text-center">
+                    <div class="col-4 col-md-2">
+                        {{ moment(cleanWave.timestamp).format('DD-MM-YYYY') }}
+                    </div>
+                    <div class="d-none d-md-block col-md-7">
+                        {{ cleanWave.address }}
+                    </div>
+                    <div class="col-8 col-md-3">
+                        {{ cleanWave.message }}
+                    </div>
+                </div>
+
+            </div>
         </div>
-    </div>
 
-    <!-- navigation buttons -->
-    <div class="row col-12 mt-5">
-        <button class="col-3 offset-3 btn btn-primary btn-warning mt-3" @click="goToStatusPage">previous</button>
-        <button class="col-3 offset-1 btn btn-primary btn-success mt-3" disabled >next</button>
+        <!-- navigation buttons -->
+        <div class="row col-12 pt-5">
+            <button class="col-3 offset-3 btn btn-primary btn-warning mt-3" @click="goToStatusPage">previous</button>
+            <button class="col-3 offset-1 btn btn-primary btn-success mt-3" disabled >next</button>
+        </div>
+
     </div>
 
 </template>
@@ -57,6 +66,7 @@
     import store from '@/store/store';
     import { ethers } from 'ethers';
     import abi from "@/utils/WavePortal.json";
+    import moment from 'moment';
 
     export default {
         name: "wavePage",
@@ -69,6 +79,10 @@
             wavePortalContract: null,
             message: "",
         }),
+
+        created: function () {
+            this.moment = moment;
+        },
 
         mounted() {
             this.getWaves();
@@ -133,6 +147,7 @@
                 store.dispatch("setMining", false);
 
                 this.getWaves();
+                this.getAllWaves();
 
             },
 
@@ -165,12 +180,12 @@
                      */
                     store.dispatch("setCleanedWaves", wavesCleaned);
 
-
                 } catch (error) {
                     console.log(error);
                 }
             }
         },
+
     };
 </script>
 
@@ -178,5 +193,12 @@
     .title {
         font-size: 1rem;
         font-weight: bold;
+    }
+    .body{
+        .input-group{
+            .form-control{
+                margin-right: 10px;;
+            }
+        }
     }
 </style>

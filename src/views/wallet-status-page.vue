@@ -1,68 +1,72 @@
 <template>
 
-  <!-- connect wallet button -->
+  <div class="body col-md-4 offset-md-4 text-center">
+    <!-- connect wallet button -->
 
-  <div class="col-12 col-md-8 offset-md-2 pt-5">First you need to get connected with your wallet, please follow this steps:</div>
+    <div class="col-md-8 offset-md-2 pt-4">First you need to get connected with your wallet, please follow this steps:</div>
 
-  <!-- status table -->
-  <div class="m-3 text-center">
-    <div class="col-12 col-md-10 offset-md-1 border border-1 rounded-3 p-3">
-      <h1 class="title">Steps to get connected</h1>
+    <!-- status table -->
+    <div class="text-center pt-4">
+      <div class="col-md-10 offset-md-1 border border-1 rounded-3 p-3">
+        <h1 class="title">Steps to get connected</h1>
 
-      <div class="mt-3 row table-row">
-        <!-- column 1 -->
-        <div class="col-1">#1</div>
-        <!-- column 2 -->
-        <div class="col-6">wallet installed</div>
-        <!-- column 3 if -->
-        <div v-if="this.$store.state.walletInstalled" class="col-5">
-          <i class="fa-solid fa-circle-check fa-lg text-success"></i>
-        </div>
-        <!-- column 1 else -->
-        <div v-else class="col-5 row">
-          <div class="col-4">
-            <i class="fa-solid fa-circle-xmark fa-lg text-danger"></i>
+        <div class="mt-3 row table-row">
+          <!-- column 1 -->
+          <div class="col-1">#1</div>
+          <!-- column 2 -->
+          <div class="col-6">wallet installed</div>
+          <!-- column 3 if -->
+          <div v-if="this.$store.state.walletInstalled" class="col-5">
+            <i class="fa-solid fa-circle-check fa-lg text-success"></i>
           </div>
-          <div class="col-8">
-            <a href="https://metamask.io/" target="_blank" class="btn btn-primary mx-3">install</a>
+          <!-- column 1 else -->
+          <div v-else class="col-5 row">
+            <div class="col-4">
+              <i class="fa-solid fa-circle-xmark fa-lg text-danger"></i>
+            </div>
+            <div class="col-8">
+              <a href="https://metamask.io/" target="_blank" class="btn btn-primary mx-3">install</a>
+            </div>
           </div>
         </div>
+
+
+        <div class="mt-3 row table-row">
+          <!-- column 1 -->
+          <div class="col-1">#2</div>
+          <!-- column 2 -->
+          <div class="col-6">wallet connected</div>
+          <!-- column 3 if -->
+          <div v-if="this.$store.state.walletConnected" class="col-5">
+            <i class="fa-solid fa-circle-check fa-lg text-success"></i>
+          </div>
+          <!-- column 1 else -->
+          <div v-else class="col-5 row">
+            <div class="col-4">
+              <i class="fa-solid fa-circle-xmark fa-lg text-danger"></i>
+            </div>
+            <div class="col-8">
+              <button v-if="!this.$store.state.walletConnected" class="btn btn-primary" :class="!this.$store.state.walletInstalled ? 'disabled' : ''" @click="connectWallet">connect</button>
+            </div>
+          </div>
+        </div>
+
       </div>
-
-
-      <div class="mt-3 row table-row">
-        <!-- column 1 -->
-        <div class="col-1">#2</div>
-        <!-- column 2 -->
-        <div class="col-6">wallet connected</div>
-        <!-- column 3 if -->
-        <div v-if="this.$store.state.walletConnected" class="col-5">
-          <i class="fa-solid fa-circle-check fa-lg text-success"></i>
-        </div>
-        <!-- column 1 else -->
-        <div v-else class="col-5 row">
-          <div class="col-4">
-            <i class="fa-solid fa-circle-xmark fa-lg text-danger"></i>
-          </div>
-          <div class="col-8">
-            <button v-if="!this.$store.state.walletConnected" class="btn btn-primary mx-3" :class="!this.$store.state.walletInstalled ? 'disabled' : ''" @click="connectWallet">connect</button>
-          </div>
-        </div>
-      </div>
-
     </div>
-  </div>
 
-  <div v-if="this.$store.state.walletConnected">
-    <div class="my-3">Great! You got connected!</div>
-    <div>your wallet address is</div>
-    <div class="text-muted">{{ this.$store.state.account }}</div>
-  </div>
+    <div v-if="this.$store.state.walletConnected">
+      <div class="pt-3">Great! You got connected!</div>
+      <div>your wallet address is</div>
+      <div class="text-muted">{{ this.$store.state.account }}</div>
+    </div>
 
-  <div class="row col-12 mt-5">
-    <button class="col-3 offset-3 btn btn-primary btn-warning mt-3" @click="goToHomePage">previous</button>
-    <button :disabled="!this.$store.state.walletConnected"
-            class="col-3 offset-1 btn btn-primary btn-success mt-3" @click="goToWavePage">next</button>
+    <!-- navigation buttons -->
+    <div class="row col-12 pt-5">
+      <button class="col-3 offset-3 btn btn-primary btn-warning mt-3" @click="goToHomePage">previous</button>
+      <button class="col-3 offset-1 btn btn-primary btn-success mt-3" @click="goToWavePage"
+              :disabled="!this.$store.state.walletConnected">next</button>
+    </div>
+
   </div>
 
 </template>

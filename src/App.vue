@@ -1,9 +1,7 @@
 <template>
-  <div class="app">
-    <div class="header"><Header /></div>
-    <div class="body col-12 col-md-4 offset-md-4 text-center">
+  <div class="app px-3">
+    <div class="header container-md"><Header /></div>
       <router-view></router-view>
-    </div>
     <div class="footer"><Footer /></div>
   </div>
 </template>
