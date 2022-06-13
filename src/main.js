@@ -1,5 +1,5 @@
 import App from "@/App.vue";
-import { createApp } from "vue";
+import {createApp} from "vue";
 import Router from "@/router/router.js";
 import Store from "@/store/store.js";
 

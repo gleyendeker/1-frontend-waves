@@ -1,4 +1,4 @@
-import { createStore } from 'vuex'
+import {createStore} from 'vuex'
 import * as types from '@/store/mutation-types'
 
 const state = {
@@ -35,22 +35,22 @@ const actions = {
 }
 
 const mutations = {
-    [types.SET_WALLET_INSTALLED] (state, data) {
+    [types.SET_WALLET_INSTALLED](state, data) {
         state.walletInstalled = data
     },
-    [types.SET_WALLET_CONNECTED] (state, data) {
+    [types.SET_WALLET_CONNECTED](state, data) {
         state.walletConnected = data
     },
-    [types.SET_ACCOUNT] (state, data) {
+    [types.SET_ACCOUNT](state, data) {
         state.account = data
     },
-    [types.SET_WAVES_RECEIVED] (state, data) {
+    [types.SET_WAVES_RECEIVED](state, data) {
         state.wavesReceived = data
     },
-    [types.SET_MINING] (state, data) {
+    [types.SET_MINING](state, data) {
         state.mining = data
     },
-    [types.SET_CLEANED_WAVES] (state, data) {
+    [types.SET_CLEANED_WAVES](state, data) {
         state.cleanedWaves = data
     },
 }

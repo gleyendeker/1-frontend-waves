@@ -5,12 +5,13 @@
         <div class="text-center pt-4">Send a customized wave Guille!</div>
 
         <div class="input-group pt-4">
-            <input type="text" class="form-control" v-model="message" placeholder="menssage" >
+            <input type="text" class="form-control" v-model="message" placeholder="menssage">
             <div class="input-group-append ">
                 <button class="btn btn-primary"
                         :class="this.$store.state.mining ? 'disabled' : '' "
                         type="button"
-                        @click="wave(message)">Button</button>
+                        @click="wave(message)">{{ waveButtonMessage }}
+                </button>
             </div>
         </div>
 
@@ -55,7 +56,7 @@
         <!-- navigation buttons -->
         <div class="row col-12 pt-5">
             <button class="col-3 offset-3 btn btn-primary btn-warning mt-3" @click="goToStatusPage">previous</button>
-            <button class="col-3 offset-1 btn btn-primary btn-success mt-3" disabled >next</button>
+            <button class="col-3 offset-1 btn btn-primary btn-success mt-3" disabled>next</button>
         </div>
 
     </div>
@@ -64,7 +65,7 @@
 
 <script>
     import store from '@/store/store';
-    import { ethers } from 'ethers';
+    import {ethers} from 'ethers';
     import abi from "@/utils/WavePortal.json";
     import moment from 'moment';
 
@@ -91,7 +92,7 @@
 
         computed: {
             waveButtonMessage: () => {
-                if(store.state.mining)
+                if (store.state.mining)
                     return 'mining...';
                 else
                     return 'wave!';
@@ -105,8 +106,8 @@
             /*
             * setup ethereum object with contract data and getContract
             */
-            getContract: function() {
-                const { ethereum } = window;
+            getContract: function () {
+                const {ethereum} = window;
                 if (ethereum) {
                     this.ethereumObject = ethereum;
                     const provider = new ethers.providers.Web3Provider(ethereum);
@@ -120,7 +121,7 @@
             /*
             * get waves from blockchain
             */
-            getWaves: async function() {
+            getWaves: async function () {
                 try {
                     this.getContract();
                     let count = await this.wavePortalContract.getTotalWaves();
@@ -136,7 +137,7 @@
             /*
             * do a wave
             */
-            wave: async function(message) {
+            wave: async function (message) {
 
                 let waveTxn = await this.wavePortalContract.wave(message);
                 console.log("Mining...", waveTxn.hash);
@@ -152,11 +153,11 @@
             },
 
             goToStatusPage() {
-                this.$router.push({ name: "status-page" });
+                this.$router.push({name: "status-page"});
             },
 
 
-            getAllWaves: async function() {
+            getAllWaves: async function () {
 
                 try {
                     this.getContract();
@@ -194,9 +195,10 @@
         font-size: 1rem;
         font-weight: bold;
     }
-    .body{
-        .input-group{
-            .form-control{
+
+    .body {
+        .input-group {
+            .form-control {
                 margin-right: 10px;;
             }
         }
