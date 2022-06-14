@@ -89,7 +89,7 @@
             await this.getContract();
             this.getWaves();
             this.getAllWaves();
-            // this.setListeners();
+            this.setupEventListeners();
         },
 
         computed: {
@@ -186,14 +186,29 @@
                 }
             },
 
-            setListeners: function () {
-                this.wavePortalContract
-                .on(
-                    "NewWave",
-                    function (sender, timestamp, message) { console.log(message); },
-                );
+            setupEventListeners() {
+
+                let wavePortalContract;
+
+                const onNewWave = (from, timestamp, message) => {
+                    console.log("NewWave", from, timestamp, message);
+                };
+
+                // if (window.ethereum) {
+                    const provider = new ethers.providers.Web3Provider(window.ethereum);
+                    const signer = provider.getSigner();
+
+                    wavePortalContract = new ethers.Contract(this.$store.state.contractAddress, this.contractABI, signer);
+                    wavePortalContract.on("NewWave", onNewWave);
+                // }
+
+                // return () => {
+                //     if (wavePortalContract) {
+                //         wavePortalContract.off("NewWave", onNewWave);
+                //     }
+                // };
             }
-        },
+    },
 
     };
 </script>
